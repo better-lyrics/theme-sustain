@@ -1,0 +1,279 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+/*
+blyrics-hide-instrumental-only = true;
+blyrics-target-scroll-pos-ratio = 0.5;
+*/
+
+:root {
+  --yt-album-size: 600px;
+  --blyrics-font-size: 3rem;
+  --blyrics-hover-scale: 1.01;
+  --blyrics-background-color: rgba(0, 0, 0, 0.25);
+  --blyrics-font-family:
+    "DM Sans", "SF Pro", var(--noto-sans-universal), system-ui, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --blyrics-font-weight: 600;
+  --blyrics-wobble-duration: 1s;
+  --blyrics-panel-size: 50%;
+  --blyrics-video-panel-size: 50%;
+  --blyrics-fullscreen-panel-size: 55%;
+  --blyrics-fullscreen-video-panel-size: 55%;
+}
+
+$selector: "+ .blyrics--line:not(.blyrics--animating)";
+
+@for $i from 1 through 20 {
+  $blur: $i + ($i * $i * 0.125);
+  $opacity: 1 - ($i * 0.1) - ($i * $i * 0.02);
+
+  .blyrics--line.blyrics--animating #{$selector} {
+    @if $opacity > 0 {
+      opacity: $opacity;
+
+      @if $opacity > 0.15 {
+        filter: blur(#{$blur}px);
+      }
+    } @else {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  $selector: "#{$selector} + .blyrics--line";
+}
+
+.blyrics--line.blyrics--active {
+  transition:
+    filter 0.1s 0s,
+    opacity 0.4s 0.166s,
+    transform 0.166s var(--blyrics-anim-delay, 0s) !important;
+}
+
+.blyrics-user-scrolling .blyrics--line {
+  filter: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+ytmusic-player:not([video-mode]) {
+  border-radius: 2rem;
+  outline: 1px solid rgb(175 175 175 / 15%);
+  overflow: hidden;
+}
+
+#blyrics-song-info {
+  letter-spacing: -0.05rem;
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --blyrics-font-size: 4.5rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --blyrics-font-size: 5rem;
+  }
+}
+
+@media (min-width: 1800px) {
+  :root {
+    --blyrics-font-size: 6rem;
+  }
+}
+
+.blyrics-background-lyric {
+  font-size: 0.9em;
+}
+
+.blyrics-container {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-top: 10px;
+  padding-inline: 20px 10px;
+}
+
+.blyrics-container:has(.blyrics--active):not(.blyrics-user-scrolling)
+  > div:not(.blyrics--active):not(.blyrics--active ~ div) {
+  transform: translateY(-24px);
+  transition:
+    filter calc(var(--blyrics-duration) / 3) 0.4s,
+    opacity 0.4s 0s,
+    transform calc(var(--blyrics-duration) / 4) 0.4s ease !important;
+  opacity: 0;
+}
+
+.blyrics-container > div.blyrics--active {
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.blyrics-container > div.blyrics--active ~ div {
+  opacity: 0.66;
+  filter: blur(0px);
+}
+
+.blyrics-container > .blyrics--animating {
+  opacity: 1 !important;
+  filter: blur(0px);
+}
+
+.blyrics-container > div {
+  transition:
+    filter calc(var(--blyrics-duration) / 3) 0.4s,
+    opacity calc(var(--blyrics-duration) / 2) 0.166s,
+    transform 0.166s var(--blyrics-anim-delay, 0s) !important;
+  padding: 5px 0;
+  transform-origin: left center;
+}
+
+.blyrics-container > div:hover {
+  opacity: 1 !important;
+  filter: blur(0px) !important;
+  transform: scale(var(--blyrics-hover-scale));
+  transition: all 0.3s ease;
+}
+
+.blyrics--word::after {
+  --blyrics-glow-color: color(display-p3 1 1 1 / 0.0001);
+}
+
+.blyrics--word[data-long-word]::after {
+  --blyrics-glow-color: color(display-p3 1 1 1 / 1);
+}
+
+@keyframes scalePulse {
+  0% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes slowRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blyrics-wobble {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-0.0375em);
+  }
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 12px));
+  }
+}
+
+ytmusic-player-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -100;
+  background: var(--blyrics-background-img);
+  background-position: 50% !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(var(--blyrics-background-blur))
+    saturate(var(--blyrics-background-saturate));
+  opacity: 0.5;
+  transform: scale(1.2);
+  transform-origin: center center;
+  animation:
+    scalePulse 8s ease-in-out infinite,
+    slowRotate 30s linear infinite;
+  animation-composition: add;
+  will-change: transform;
+}
+
+ytmusic-player-bar {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1fr;
+  grid-template-areas: "start middle end";
+}
+
+.left-controls.ytmusic-player-bar {
+  grid-area: middle;
+  justify-self: center;
+  margin-left: calc(56px - 140px);
+}
+
+.middle-controls.ytmusic-player-bar {
+  grid-area: start;
+  justify-content: start;
+  margin-left: 16px;
+}
+
+.middle-controls.ytmusic-player-bar yt-formatted-string.byline::after {
+  content: attr(title);
+  padding-left: 24px;
+}
+
+.middle-controls.ytmusic-player-bar span.yt-formatted-string {
+  overflow: visible !important;
+}
+
+.middle-controls.ytmusic-player-bar:hover yt-formatted-string.byline {
+  overflow: visible;
+  will-change: transform;
+  animation: marquee-scroll 8s linear infinite;
+}
+
+.middle-controls.ytmusic-player-bar .byline-wrapper {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 7.5%,
+    #000 92.5%,
+    transparent 100%
+  );
+  mask-size: 115%;
+  mask-position: right;
+  transition: mask-size 0.15s linear;
+}
+
+.middle-controls.ytmusic-player-bar:hover .byline-wrapper {
+  mask-size: 100%;
+}
+
+.volume-slider.ytmusic-player-bar {
+  opacity: 1;
+}
+
+.av-toggle.ytmusic-av-toggle {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ytmusic-av-toggle[aria-pressed="false"] {
+  background: transparent;
+}
+
+.ytmusic-av-toggle[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 936px) {
+  .side-panel.ytmusic-player-page {
+    margin: 0 0 0 calc(var(--ytmusic-player-page-content-gap) - 10px);
+  }
+}
