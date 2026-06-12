@@ -1,7 +1,7 @@
 # Sustain
 
-![Installs](https://img.shields.io/endpoint?url=https://better-lyrics-themes-api.boidu.dev/api/badge/eblp)
-![Rating](https://img.shields.io/endpoint?url=https://better-lyrics-themes-api.boidu.dev/api/badge/eblp/rating)
+![Installs](https://img.shields.io/endpoint?url=https://better-lyrics-themes-api.boidu.dev/api/badge/sustain)
+![Rating](https://img.shields.io/endpoint?url=https://better-lyrics-themes-api.boidu.dev/api/badge/sustain/rating)
 
 A calm, minimal BetterLyrics theme built to disappear into the music.
 
