@@ -13,7 +13,7 @@ A calm, minimal BetterLyrics theme built to disappear into the music.
 
 ## Preview
 
-![Preview 1](images/1.png)
+![Preview 1](images/sustain.webp)
 ![Preview 2](images/2.png)
 
 ## License
