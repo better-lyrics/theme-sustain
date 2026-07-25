@@ -17,6 +17,11 @@ blyrics-target-scroll-pos-ratio = 0.5;
     "Segoe UI Symbol";
   --blyrics-font-weight: 600;
   --blyrics-wobble-duration: 1s;
+  --blyrics-glow-color: color(display-p3 1 1 1 / 0.0001);
+  --blyrics-word-wobble-transform-from: translateY(0);
+  --blyrics-word-wobble-transform-peak: translateY(-0.005em);
+  --blyrics-word-wobble-transform-settle: translateY(-0.028em);
+  --blyrics-word-wobble-transform-to: translateY(-0.0375em);
   --blyrics-panel-size: 50%;
   --blyrics-video-panel-size: 50%;
   --blyrics-fullscreen-panel-size: 55%;
@@ -30,13 +35,13 @@ blyrics-target-scroll-pos-ratio = 0.5;
   font-family: var(--blyrics-font-family);
 }
 
-$selector: "+ .blyrics--line:not(.blyrics--animating)";
+$selector: "+ .blyrics--line:not(.blyrics--active)";
 
 @for $i from 1 through 20 {
   $blur: $i + ($i * $i * 0.125);
   $opacity: 1 - ($i * 0.1) - ($i * $i * 0.02);
 
-  .blyrics--line.blyrics--animating #{$selector} {
+  .blyrics--line.blyrics--active #{$selector} {
     @if $opacity > 0 {
       opacity: $opacity;
 
@@ -56,7 +61,7 @@ $selector: "+ .blyrics--line:not(.blyrics--animating)";
   transition:
     filter 0.1s 0s,
     opacity 0.4s 0.166s,
-    transform 0.166s var(--blyrics-anim-delay, 0s) !important;
+    transform 0.166s 0s !important;
 }
 
 .blyrics-user-scrolling .blyrics--line {
@@ -205,7 +210,7 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   filter: blur(0px);
 }
 
-.blyrics-container > .blyrics--animating {
+.blyrics-container > .blyrics--active {
   opacity: 1 !important;
   filter: blur(0px);
 }
@@ -214,7 +219,7 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   transition:
     filter calc(var(--blyrics-duration) / 3) 0.4s,
     opacity calc(var(--blyrics-duration) / 2) 0.166s,
-    transform 0.166s var(--blyrics-anim-delay, 0s) !important;
+    transform 0.166s 0s !important;
   padding: 5px 0;
   transform-origin: left center;
 }
@@ -224,14 +229,6 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   filter: blur(0px) !important;
   transform: scale(var(--blyrics-hover-scale));
   transition: all 0.3s ease;
-}
-
-.blyrics--word::after {
-  --blyrics-glow-color: color(display-p3 1 1 1 / 0.0001);
-}
-
-.blyrics--word[data-long-word]::after {
-  --blyrics-glow-color: color(display-p3 1 1 1 / 1);
 }
 
 @keyframes scalePulse {
@@ -252,15 +249,6 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes blyrics-wobble {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-0.0375em);
   }
 }
 
