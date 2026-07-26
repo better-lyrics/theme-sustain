@@ -61,7 +61,7 @@ $selector: "+ .blyrics--line:not(.blyrics--active)";
   transition:
     filter 0.1s 0s,
     opacity 0.4s 0.166s,
-    transform 0.166s 0s !important;
+    transform 0.166s var(--blyrics-anim-delay, 0s) !important;
 }
 
 .blyrics-user-scrolling .blyrics--line {
@@ -219,7 +219,7 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   transition:
     filter calc(var(--blyrics-duration) / 3) 0.4s,
     opacity calc(var(--blyrics-duration) / 2) 0.166s,
-    transform 0.166s 0s !important;
+    transform 0.166s var(--blyrics-anim-delay, 0s) !important;
   padding: 5px 0;
   transform-origin: left center;
 }
@@ -258,6 +258,16 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Word wobble for the pre-2.4.0.1 engine, which applies this keyframe; the new engine reads the wobble transform variables instead. */
+@keyframes blyrics-wobble {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-0.0375em);
   }
 }
 
