@@ -17,7 +17,6 @@ blyrics-target-scroll-pos-ratio = 0.5;
     "Segoe UI Symbol";
   --blyrics-font-weight: 600;
   --blyrics-wobble-duration: 1s;
-  --blyrics-glow-color: color(display-p3 1 1 1 / 0.0001);
   --blyrics-word-wobble-transform-from: translateY(0);
   --blyrics-word-wobble-transform-peak: translateY(-0.005em);
   --blyrics-word-wobble-transform-settle: translateY(-0.028em);
@@ -229,6 +228,15 @@ tp-yt-paper-item.ytmusic-guide-entry-renderer:hover {
   filter: blur(0px) !important;
   transform: scale(var(--blyrics-hover-scale));
   transition: all 0.3s ease;
+}
+
+.blyrics--word::after {
+  --blyrics-glow-color: color(display-p3 1 1 1 / 0.0001);
+}
+
+.blyrics--word[data-long-word]::after,
+.blyrics--word[data-long-word] > .blyrics-word-highlight {
+  --blyrics-glow-color: color(display-p3 1 1 1 / 1);
 }
 
 @keyframes scalePulse {
