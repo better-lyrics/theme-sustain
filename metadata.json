@@ -4,9 +4,9 @@
   "creators": [
     "boidushya"
   ],
-  "minVersion": "2.4.0.1",
+  "minVersion": "2.4.0.8",
   "hasShaders": true,
-  "version": "1.0.15",
+  "version": "1.0.16",
   "tags": [
     "dark",
     "minimal",
